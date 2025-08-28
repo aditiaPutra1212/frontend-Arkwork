@@ -1,0 +1,453 @@
+{
+  "signupperushaan": {},
+  "companySignup": {
+    "title": "Buat Akun Perusahaan",
+    "subtitle": "Kelola lowongan dan rekrut talenta terbaik di ArkWork.",
+    "form": {
+      "company": "Nama Perusahaan",
+      "contact": "Nama PIC",
+      "email": "Email Perusahaan",
+      "phone": "Nomor Telepon (opsional)",
+      "size": "Ukuran Tim (opsional)",
+      "website": "Website (opsional)",
+      "password": "Kata Sandi",
+      "confirm": "Konfirmasi Kata Sandi",
+      "togglePw": "Tampilkan/sembunyikan kata sandi",
+      "toggleConfirm": "Tampilkan/sembunyikan konfirmasi"
+    },
+    "placeholder": {
+      "company": "Mis. PT ArkWork Indonesia",
+      "contact": "Mis. Rani Pratama",
+      "email": "hr@perusahaan.com",
+      "phone": "08xxxxxxxxxx",
+      "size": "Pilih ukuran tim",
+      "website": "perusahaan.com",
+      "password": "Minimal 8 karakter",
+      "confirm": "Ulangi kata sandi"
+    },
+    "match": {
+      "ok": "Kata sandi cocok",
+      "no": "Kata sandi tidak cocok"
+    },
+    "agree": {
+      "1": "Saya menyetujui",
+      "terms": "Syarat & Ketentuan",
+      "and": "dan",
+      "privacy": "Kebijakan Privasi"
+    },
+    "creating": "Membuat akun...",
+    "createBtn": "Buat Akun Perusahaan",
+    "or": "atau",
+    "google": "Daftar dengan Google",
+    "haveAccount": "Sudah punya akun perusahaan?",
+    "signIn": "Masuk di sini",
+    "error": {
+      "default": "Terjadi kesalahan. Coba lagi.",
+      "google": "Gagal menggunakan Google. Coba lagi.",
+      "agree": "Anda harus menyetujui Syarat & Ketentuan.",
+      "mismatch": "Konfirmasi kata sandi tidak sama.",
+      "company": "Nama perusahaan terlalu pendek.",
+      "contact": "Nama PIC terlalu pendek."
+    }
+  },
+
+  "halaman-home": {},
+
+  "nav": {
+    "home": "Beranda",
+    "jobs": "Lowongan",
+    "tenders": "Tender",
+    "news": "Berita",
+    "about": "Tentang"
+  },
+  "auth": {
+    "signIn": "Masuk",
+    "signUp": "Untuk Perusahaan"
+  },
+  "user": {
+    "profile": "Profil",
+    "dashboard": "Dasbor",
+    "logout": "Keluar",
+    "fallback": "Pengguna"
+  },
+  "emp": {
+    "dashboard": "Dasbor Perusahaan",
+    "postJob": "Pasang Lowongan",
+    "manageJobs": "Kelola Lowongan",
+    "applications": "Lamaran Masuk",
+    "billing": "Tagihan",
+    "settings": "Pengaturan"
+  },
+  "cta": {
+    "energy": "Jelajahi Update Energi"
+  },
+
+  "home": {
+    "hero": {
+      "title": { "1": "Majukan Kariermu di", "2": "Sektor Energi" },
+      "desc": "ArkWork menghubungkan profesional energi dengan peluang di oil & gas, LNG, utilitas, dan teknologi energi terbaru. Telusuri lowongan, dapatkan insight industri, dan temukan perusahaan—semua di satu tempat.",
+      "cta": { "jobs": "Jelajahi Lowongan", "companies": "Lihat Perusahaan" }
+    },
+    "explore": {
+      "title": "Jelajahi Tanpa Masuk",
+      "desc": "Telusuri lowongan, temukan perusahaan, dan ikuti kabar industri. Masuk hanya saat siap melamar."
+    },
+    "card": {
+      "jobs": { "title": "Telusuri Lowongan", "desc": "Cari ribuan peluang sektor energi dengan filter lanjutan." },
+      "companies": { "title": "Temukan Perusahaan", "desc": "Kenali perusahaan energi dan budaya kerja serta peluangnya." },
+      "news": { "title": "Berita Industri", "desc": "Tetap up to date dengan berita dan tender sektor energi." }
+    },
+    "features": {
+      "title": "Semua yang Kamu Butuhkan untuk Karier Energi",
+      "desc": "Dari pencarian kerja hingga insight industri, ArkWork menyediakan alat lengkap untuk berkembang di sektor energi."
+    },
+    "feature": {
+      "1": { "title": "Pencarian Kerja Cerdas", "desc": "Temukan lowongan energi dengan pencocokan AI & filter lanjutan." },
+      "2": { "title": "Profil Perusahaan", "desc": "Kenali perusahaan dan budaya kerja serta peluangnya." },
+      "3": { "title": "Pencocokan Talenta", "desc": "Cocokkan ke peran sesuai skill dan pengalamanmu." },
+      "4": { "title": "Berita Industri", "desc": "Ikuti berita & tender terbaru sektor energi." },
+      "5": { "title": "Jejaring Profesional", "desc": "Terhubung dengan profesional dan pemimpin industri." },
+      "6": { "title": "Fokus Energi", "desc": "Liputan mendalam oil & gas, LNG, dan utilitas." }
+    },
+    "final": {
+      "title": "Siap Menguatkan Kariermu?",
+      "desc": "Bergabung dengan ribuan profesional yang mempercayai ArkWork.",
+      "cta": "Ke Dashboard",
+      "note": "Tanpa kartu kredit • Daftar kurang dari 1 menit"
+    }
+  },
+
+  "lang": { "switch": "Ganti bahasa" },
+  "menu": { "open": "Buka menu", "close": "Tutup menu", "user": "Buka menu pengguna" },
+
+  "footer": {
+    "logoAlt": "Logo ArkWork",
+    "description": "Bangun karier Anda di sektor energi: lowongan kerja, tender, dan wawasan untuk profesional oil & gas, LNG, dan utilitas.",
+    "headings": { "product": "Produk", "company": "Perusahaan", "legal": "Legal" },
+    "links": {
+      "jobs": "Lowongan",
+      "tenders": "Tender",
+      "news": "Berita",
+      "home": "Beranda",
+      "about": "Tentang",
+      "terms": "Ketentuan",
+      "privacy": "Privasi",
+      "cookies": "Cookie"
+    },
+    "social": { "x": "X / Twitter", "linkedin": "LinkedIn", "email": "Email" },
+    "copyright": "© {year} ArkWork. Hak cipta dilindungi.",
+    "madeFor": "Dibuat untuk komunitas energi & oil & gas."
+  },
+
+  "Halaman-about": {},
+
+  "about": {
+    "title": "Tentang",
+    "intro": "ArkWork adalah platform inovatif yang menghubungkan lowongan kerja, tender, dan kabar industri dengan profesional serta bisnis di sektor energi.",
+    "vision": {
+      "title": "Visi Kami",
+      "desc": "Menjadi jembatan utama antara talenta, perusahaan, dan peluang bisnis—menciptakan ekosistem kolaboratif yang mendorong pertumbuhan ekonomi dan inovasi."
+    },
+    "mission": {
+      "title": "Misi Kami",
+      "points": {
+        "1": "Memberikan akses mudah ke lowongan dan tender terbaru.",
+        "2": "Membantu perusahaan menemukan talenta yang tepat secara efisien.",
+        "3": "Menyajikan berita industri yang tepercaya dan relevan.",
+        "4": "Mendorong kolaborasi antara pelaku industri dan profesional."
+      }
+    },
+    "values": {
+      "title": "Nilai-Nilai Kami",
+      "items": {
+        "integrity": { "title": "Integritas", "desc": "Menjunjung kejujuran dan transparansi dalam setiap aspek kerja." },
+        "innovation": { "title": "Inovasi", "desc": "Terus beradaptasi dan menciptakan solusi kreatif untuk kebutuhan pasar." },
+        "collaboration": { "title": "Kolaborasi", "desc": "Percaya pada kekuatan sinergi antar individu dan organisasi." },
+        "quality": { "title": "Kualitas", "desc": "Berkomitmen memberikan layanan terbaik bagi pengguna." }
+      }
+    },
+    "closing": {
+      "title": "Bergabung dengan ArkWork Hari Ini",
+      "desc": "Apakah kamu profesional yang mencari peluang baru atau perusahaan yang ingin merekrut talenta terbaik, ArkWork adalah tempat yang tepat untuk memulai.",
+      "cta": "Jelajahi Peluang"
+    }
+  },
+
+  "Halaman-signin": {},
+
+  "signin": {
+    "title": "Masuk ke ArkWork",
+    "subtitle": "Selamat datang kembali! Silakan masukkan detail Anda.",
+    "form": {
+      "email": "Email",
+      "password": "Kata sandi",
+      "togglePw": "Tampilkan/sembunyikan kata sandi",
+      "remember": "Ingat saya",
+      "forgot": "Lupa kata sandi?",
+      "signInBtn": "Masuk",
+      "signingIn": "Sedang masuk..."
+    },
+    "googleBtn": "Masuk dengan Google",
+    "noAccount": "Belum punya akun?",
+    "signUp": "Daftar",
+    "or": "atau",
+    "error": {
+      "default": "Gagal masuk. Periksa kembali email & kata sandi.",
+      "google": "Gagal masuk dengan Google."
+    }
+  },
+
+  "Halaman-signup": {},
+
+  "signup": {
+    "title": "Buat akun ArkWork",
+    "subtitle": "Cepat dan gratis. Mulai perjalanan karier energimu.",
+    "form": {
+      "name": "Nama Lengkap",
+      "email": "Email",
+      "password": "Kata Sandi",
+      "confirm": "Konfirmasi Kata Sandi",
+      "togglePw": "Tampilkan/sembunyikan kata sandi",
+      "toggleConfirm": "Tampilkan/sembunyikan konfirmasi"
+    },
+    "placeholder": {
+      "name": "Jane Doe",
+      "email": "kamu@contoh.com",
+      "password": "Minimal 8 karakter, campur Aa1",
+      "confirm": "Masukkan ulang kata sandi"
+    },
+    "agree": {
+      "1": "Saya menyetujui",
+      "terms": "Ketentuan",
+      "and": "dan",
+      "privacy": "Privasi"
+    },
+    "createBtn": "Buat Akun",
+    "creating": "Membuat akun…",
+    "or": "atau",
+    "google": "Lanjut dengan Google",
+    "haveAccount": "Sudah punya akun?",
+    "signIn": "Masuk",
+    "match": {
+      "ok": "Kata sandi cocok",
+      "no": "Kata sandi tidak cocok"
+    },
+    "error": {
+      "agree": "Silakan setujui Ketentuan & Privasi.",
+      "mismatch": "Kata sandi tidak cocok.",
+      "default": "Gagal membuat akun. Coba lagi.",
+      "google": "Gagal lanjut dengan Google."
+    }
+  },
+
+  "dashboard": {
+    "greeting": "Hai, {name}!",
+    "greetingSmall": "Selamat datang kembali",
+    "hero": {
+      "subtitle": "Lihat aktivitasmu dan lengkapi profil untuk rekomendasi yang lebih akurat."
+    },
+    "cta": {
+      "findJobs": "Cari Lowongan"
+    },
+    "fallback": { "there": "kamu", "job": "Lowongan" },
+    "profile": {
+      "title": "Profil Saya",
+      "desc": "Lengkapi profil untuk rekomendasi lowongan yang lebih akurat",
+      "cta": "Ubah Profil",
+      "badge": "Rekomendasi lebih akurat",
+      "stats": {
+        "profile": "Profil",
+        "cv": "CV",
+        "skills": "Keahlian",
+        "completeness": "Kelengkapan Profil"
+      }
+    },
+    "recent": {
+      "title": "Aktivitas Terbaru",
+      "empty": "Belum ada aktivitas",
+      "item": "Melamar ke {title} — {date}",
+      "viewAll": "Lihat Semua",
+      "cta": { "findJobs": "Cari Lowongan" }
+    }
+  },
+
+  "Halaman-jobs": {},
+
+  "jobs": {
+    "heading": "Cari Lowongan",
+    "subheading": "Energi, Terbarukan, Pertambangan — pilihan peran untuk profesional.",
+    "search": { "placeholder": "Cari posisi / perusahaan…" },
+    "sort": { "label": "Urut", "newest": "Terbaru", "oldest": "Terlama" },
+    "filters": {
+      "title": "Filter",
+      "location": "Lokasi",
+      "industry": "Industri",
+      "contract": "Kontrak",
+      "function": "Fungsi",
+      "workmode": "Mode kerja",
+      "results": "{count} hasil",
+      "clear": "Hapus semua",
+      "all": "Semua {label}",
+      "placeholder": "Saring {label}…"
+    },
+    "common": {
+      "company": "Perusahaan",
+      "save": "Simpan",
+      "saved": "Tersimpan",
+      "view": "Lihat detail",
+      "posted": "Diposting {date}"
+    },
+    "empty": { "title": "Tidak ada lowongan", "desc": "Coba ubah filter atau kata kunci." },
+    "detail": {
+      "empty": "Pilih lowongan untuk melihat detail",
+      "industry": "Industri",
+      "contract": "Kontrak",
+      "function": "Fungsi",
+      "workmode": "Mode kerja",
+      "posted": "Diposting",
+      "id": "ID",
+      "apply": "Lamar Sekarang",
+      "saveJob": "Simpan Lowongan"
+    },
+    "apply": {
+      "needLogin": "Silakan masuk untuk melamar.",
+      "dup": "Kamu sudah melamar lowongan ini!",
+      "ok": "Lamaran terkirim!"
+    }
+  },
+
+  "Halaman-news": {},
+
+  "news": {
+    "title": "Berita Energi & Migas",
+    "latest": "Berita Industri Terbaru",
+    "readMore": "Baca Selengkapnya",
+    "empty": "Tidak ada artikel.",
+    "error": { "load": "Gagal memuat berita" },
+    "scope": {
+      "id": "Cakupan: Indonesia",
+      "global": "Cakupan: Global",
+      "both": "Cakupan: Keduanya"
+    },
+    "lang": { "id": "Bahasa: ID", "en": "Bahasa: EN" },
+    "country": { "id": "Negara: ID", "us": "Negara: US" },
+    "limit": { "n": "Batas: {n}" },
+    "keywords": { "placeholder": "Kata kunci kustom (opsional)" },
+    "btn": { "fetch": "Ambil Berita", "loading": "Memuat…" },
+    "quick": { "placeholder": "Saring cepat judul/sumber…", "clear": "Hapus Saringan" },
+    "source": { "unknown": "Sumber" }
+  },
+
+  "Halaman-profile": {},
+
+  "profile": {
+    "title": "Profil Saya",
+    "fields": {
+      "name": "Nama Lengkap",
+      "email": "Email",
+      "location": "Lokasi",
+      "phone": "Nomor HP",
+      "skills": "Keahlian (pisahkan dengan koma)",
+      "cv": "Unggah CV"
+    },
+    "ph": {
+      "name": "Budi Santoso",
+      "location": "cth. Jakarta, ID",
+      "phone": "cth. +62 812xxxxxxx",
+      "skills": "engineer, offshore, HSE"
+    },
+    "actions": {
+      "save": "Simpan Profil",
+      "download": "Unduh",
+      "view": "Lihat",
+      "remove": "Hapus",
+      "chooseFile": "Pilih File",
+      "changePhoto": "Ubah Foto",
+      "uploading": "Mengunggah..."
+    },
+    "hints": {
+      "docPreview": "Preview inline hanya untuk PDF. DOC/DOCX dibuka/diunduh di tab baru.",
+      "noCvYet": "Belum ada CV terunggah."
+    },
+    "toast": {
+      "saved": "Profil berhasil diperbarui!",
+      "notFound": "Pengguna tidak ditemukan di data lokal.",
+      "failed": "Gagal menyimpan profil.",
+      "cvUploaded": "CV berhasil diunggah.",
+      "cvRemoved": "CV dihapus.",
+      "cvTypeNotAllowed": "File harus PDF/DOC/DOCX.",
+      "cvTooLarge": "Ukuran maksimum {size}MB"
+    }
+  },
+
+  "Halaman-tender": {},
+
+  "tenders": {
+    "title": "Cari Tender",
+    "subtitle": "Peluang proyek & pengadaan untuk kolaborasi multi-tim.",
+    "ph": { "search": "Cari judul / pembeli…" },
+    "sort": {
+      "label": "Urutkan",
+      "nearest": "Deadline terdekat",
+      "farthest": "Deadline terjauh"
+    },
+    "filters": {
+      "title": "Filter",
+      "location": "Lokasi",
+      "sector": "Sektor",
+      "status": "Status",
+      "contract": "Kontrak",
+      "all": "Semua {what}",
+      "clear": "Hapus semua",
+      "ph": { "location": "Saring lokasi…" }
+    },
+    "enums": {
+      "sector": {
+        "Oil & Gas": "Migas",
+        "Renewable Energy": "Energi Terbarukan",
+        "Utilities": "Utilitas",
+        "Engineering": "Rekayasa"
+      },
+      "status": {
+        "Open": "Dibuka",
+        "Prequalification": "Prakualifikasi",
+        "Closed": "Ditutup"
+      },
+      "contract": {
+        "EPC": "EPC",
+        "Supply": "Pengadaan",
+        "Consulting": "Konsultansi",
+        "Maintenance": "Pemeliharaan"
+      }
+    },
+    "labels": {
+      "budget": "Anggaran",
+      "teamSlots": "Slot tim",
+      "teamN": "{n} tim",
+      "sector": "Sektor",
+      "contract": "Kontrak",
+      "status": "Status",
+      "deadline": "Batas akhir"
+    },
+    "btn": {
+      "save": "Simpan",
+      "saved": "Tersimpan",
+      "view": "Lihat detail",
+      "participate": "Ikut serta",
+      "saveTender": "Simpan Tender"
+    },
+    "docs": {
+      "title": "Dokumen",
+      "none": "Tidak ada dokumen"
+    },
+    "deadline": {
+      "closed": "Pengajuan ditutup",
+      "today": "Jatuh tempo hari ini",
+      "left": "Sisa {n} hari"
+    },
+    "detail": { "empty": "Pilih tender untuk melihat detail" },
+    "empty": { "title": "Tidak ada tender", "desc": "Coba ubah filter atau kata kunci." },
+    "results": "{count} hasil",
+    "participate": { "alert": "Berminat ikut serta: {title}\nSilakan unggah dokumen pada langkah berikutnya." }
+  }
+}
