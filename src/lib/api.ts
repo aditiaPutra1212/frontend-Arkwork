@@ -2,9 +2,7 @@
 
 /* ====================== Base URL ====================== */
 const RAW_BASE =
-  process.env.NEXT_PUBLIC_API_URL ||
-  process.env.NEXT_PUBLIC_API_BASE ||
-  'http://localhost:4000';
+  (process.env.NEXT_PUBLIC_API_URL || process.env.NEXT_PUBLIC_API_BASE || 'http://localhost:4000').trim();
 
 // hapus trailing slash supaya join URL konsisten
 export const API_BASE = RAW_BASE.replace(/\/+$/, '');
@@ -83,13 +81,16 @@ export async function api<T = any>(path: string, opts: ApiOpts = {}): Promise<T>
   const eid = getEmployerId();
   if (eid && !h.has('x-employer-id')) h.set('x-employer-id', eid);
 
-  if (willSendJson) h.set('Content-Type', 'application/json');
+  if (willSendJson && !h.has('Content-Type')) h.set('Content-Type', 'application/json');
 
+  // PENTING: letakkan ...rest lebih dulu, lalu KUNCI nilai wajib agar tidak ter-override
   const init: RequestInit = {
-    credentials: 'include', // penting agar cookie ikut
+    ...rest,                          // caller options (boleh, tapi tidak boleh override yg wajib)
     headers: h,
-    ...(json !== undefined ? { method: rest.method ?? 'POST', body: JSON.stringify(json) } : {}),
-    ...rest,
+    mode: 'cors',
+    cache: 'no-store',
+    credentials: 'include',           // 🔒 selalu bawa cookie
+    ...(willSendJson ? { method: rest.method ?? 'POST', body: JSON.stringify(json) } : {}),
   };
 
   const url = buildUrl(path);
@@ -123,12 +124,16 @@ export async function apiForm<T = any>(
   if (eid && !h.has('x-employer-id')) h.set('x-employer-id', eid);
 
   const url = buildUrl(path);
+
+  // Sama seperti di atas: ...opts dulu, lalu kunci nilai wajib
   const res = await fetch(url, {
+    ...opts,
     method: 'POST',
     body: form,
-    credentials: 'include',
-    headers: h,
-    ...opts, // jangan set Content-Type manual; biarkan browser
+    mode: 'cors',
+    cache: 'no-store',
+    credentials: 'include',        // 🔒 jangan sampai di-override
+    headers: h,                    // JANGAN set Content-Type manual utk FormData
   });
 
   if (!res.ok) {
