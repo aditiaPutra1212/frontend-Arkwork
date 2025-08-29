@@ -1,23 +1,13 @@
 // frontend/src/lib/api.ts
 
 /* ====================== Base URL ====================== */
-/**
- * NEXT_PUBLIC_API_BASE  -> contoh: https://backend-arkwork-production.up.railway.app
- * NEXT_PUBLIC_API_URL   -> fallback lama
- * NEXT_PUBLIC_EMP_API_BASE -> contoh: https://.../api/employers/auth
- */
 const RAW_BASE =
-  process.env.NEXT_PUBLIC_API_BASE ||
   process.env.NEXT_PUBLIC_API_URL ||
+  process.env.NEXT_PUBLIC_API_BASE ||
   'http://localhost:4000';
 
+// hapus trailing slash supaya join URL konsisten
 export const API_BASE = RAW_BASE.replace(/\/+$/, '');
-
-const RAW_EMP_BASE =
-  process.env.NEXT_PUBLIC_EMP_API_BASE ||
-  `${API_BASE}/api/employers/auth`;
-
-export const EMP_API_BASE = RAW_EMP_BASE.replace(/\/+$/, '');
 
 /* ====================== Types ====================== */
 type ApiOpts = RequestInit & {
@@ -27,42 +17,53 @@ type ApiOpts = RequestInit & {
   expectJson?: boolean; // default: true
 };
 
-/* ====================== URL helpers ====================== */
-function absolutize(path: string, base: string) {
-  if (!path) return base;
-  if (/^https?:\/\//i.test(path)) return path;
-  return `${base}${path.startsWith('/') ? '' : '/'}${path}`;
+/* ====================== Helpers ====================== */
+function buildUrl(path: string) {
+  if (!path) return API_BASE;
+  if (/^https?:\/\//i.test(path)) return path; // sudah absolut
+  return `${API_BASE}${path.startsWith('/') ? '' : '/'}${path}`;
 }
 
-/* ====================== Error helpers ====================== */
+function getEmployerId(): string | null {
+  if (typeof window === 'undefined') return null;
+  try {
+    return localStorage.getItem('ark_employer_id');
+  } catch {
+    return null;
+  }
+}
+
+/** Ubah array Zod issues → string yang enak dibaca */
+function zodIssuesToMessage(issues: any[]): string {
+  try {
+    if (!Array.isArray(issues) || !issues.length) return 'Validation error';
+    const msgs = issues.map((i) => {
+      const path = (i?.path || []).join('.') || '(root)';
+      const msg = i?.message || 'invalid';
+      return `${path}: ${msg}`;
+    });
+    return msgs.join('; ');
+  } catch {
+    return 'Validation error';
+  }
+}
+
+/* Baca pesan error dari response */
 async function readErrorMessage(res: Response) {
   try {
     const ct = res.headers.get('content-type') || '';
     if (ct.includes('application/json')) {
       const data: any = await res.json().catch(() => ({}));
-      // prefer server message
-      return (
-        data?.message ||
-        data?.error ||
-        (Array.isArray(data?.details) && data.details[0]?.message) ||
-        `HTTP ${res.status}`
-      );
+      if (Array.isArray(data?.details)) {
+        return zodIssuesToMessage(data.details);
+      }
+      return data?.message || data?.error || `HTTP ${res.status}`;
     }
-    // jangan tampilkan HTML mentah
     const text = await res.text();
-    if (text && !/^\s*</.test(text)) return text;
-    return `HTTP ${res.status}`;
+    return text || `HTTP ${res.status}`;
   } catch {
     return `HTTP ${res.status}`;
   }
-}
-
-function buildError(url: string, status: number, message: string) {
-  const err: any = new Error(`[${status}] ${url} ${message}`);
-  err.status = status;
-  err.url = url;
-  err.messageOnly = message;
-  return err;
 }
 
 /* ====================== Main fetch wrapper ====================== */
@@ -78,65 +79,28 @@ export async function api<T = any>(path: string, opts: ApiOpts = {}): Promise<T>
   const sendingFormData = rest.body instanceof FormData;
   const willSendJson = json !== undefined && !sendingFormData;
 
+  // sisipkan employerId bila ada (fallback auth via header)
+  const eid = getEmployerId();
+  if (eid && !h.has('x-employer-id')) h.set('x-employer-id', eid);
+
   if (willSendJson) h.set('Content-Type', 'application/json');
 
   const init: RequestInit = {
-    credentials: 'include', // penting agar cookie/token ikut (cross-site)
+    credentials: 'include', // penting agar cookie ikut
     headers: h,
     ...(json !== undefined ? { method: rest.method ?? 'POST', body: JSON.stringify(json) } : {}),
     ...rest,
   };
 
-  const url = absolutize(path, API_BASE);
+  const url = buildUrl(path);
   const res = await fetch(url, init);
 
   if (!res.ok) {
-    throw buildError(url, res.status, await readErrorMessage(res));
+    throw new Error(`[${res.status}] ${url} ${await readErrorMessage(res)}`);
   }
 
   if (res.status === 204 || !expectJson) {
-    // @ts-expect-error – agar bisa return null saat expectJson=false
-    return null;
-  }
-
-  // jangan memaksa parse JSON kalau server tidak kirim JSON
-  const ct = res.headers.get('content-type') || '';
-  if (!ct.includes('application/json')) {
-    return (await res.text()) as unknown as T;
-  }
-
-  return (await res.json()) as T;
-}
-
-/* ============== Helper khusus Employer Auth (EMP_API_BASE) ============== */
-export async function empApi<T = any>(
-  path: string,
-  opts: ApiOpts = {}
-): Promise<T> {
-  const { json, headers, expectJson = true, ...rest } = opts;
-
-  const h = new Headers(headers || {});
-  const sendingFormData = rest.body instanceof FormData;
-  const willSendJson = json !== undefined && !sendingFormData;
-
-  if (willSendJson) h.set('Content-Type', 'application/json');
-
-  const init: RequestInit = {
-    credentials: 'include',
-    headers: h,
-    ...(json !== undefined ? { method: rest.method ?? 'POST', body: JSON.stringify(json) } : {}),
-    ...rest,
-  };
-
-  const url = absolutize(path, EMP_API_BASE);
-  const res = await fetch(url, init);
-
-  if (!res.ok) {
-    throw buildError(url, res.status, await readErrorMessage(res));
-  }
-
-  if (res.status === 204 || !expectJson) {
-    // @ts-expect-error
+    // @ts-expect-error: supaya bisa return null saat expectJson=false
     return null;
   }
 
@@ -144,6 +108,7 @@ export async function empApi<T = any>(
   if (!ct.includes('application/json')) {
     return (await res.text()) as unknown as T;
   }
+
   return (await res.json()) as T;
 }
 
@@ -153,16 +118,21 @@ export async function apiForm<T = any>(
   form: FormData,
   opts: RequestInit = {}
 ): Promise<T> {
-  const url = absolutize(path, API_BASE);
+  const h = new Headers(opts.headers || {});
+  const eid = getEmployerId();
+  if (eid && !h.has('x-employer-id')) h.set('x-employer-id', eid);
+
+  const url = buildUrl(path);
   const res = await fetch(url, {
     method: 'POST',
     body: form,
     credentials: 'include',
+    headers: h,
     ...opts, // jangan set Content-Type manual; biarkan browser
   });
 
   if (!res.ok) {
-    throw buildError(url, res.status, await readErrorMessage(res));
+    throw new Error(`[${res.status}] ${url} ${await readErrorMessage(res)}`);
   }
 
   const ct = res.headers.get('content-type') || '';
