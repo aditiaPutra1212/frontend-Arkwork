@@ -1,27 +1,37 @@
 // frontend/src/lib/api.ts
 
 /* ====================== Base URL ====================== */
+/**
+ * NEXT_PUBLIC_API_BASE  -> contoh: https://backend-arkwork-production.up.railway.app
+ * NEXT_PUBLIC_API_URL   -> fallback lama
+ * NEXT_PUBLIC_EMP_API_BASE -> contoh: https://.../api/employers/auth
+ */
 const RAW_BASE =
-  process.env.NEXT_PUBLIC_API_URL ||
   process.env.NEXT_PUBLIC_API_BASE ||
+  process.env.NEXT_PUBLIC_API_URL ||
   'http://localhost:4000';
 
-// hapus trailing slash supaya join URL konsisten
 export const API_BASE = RAW_BASE.replace(/\/+$/, '');
+
+const RAW_EMP_BASE =
+  process.env.NEXT_PUBLIC_EMP_API_BASE ||
+  `${API_BASE}/api/employers/auth`;
+
+export const EMP_API_BASE = RAW_EMP_BASE.replace(/\/+$/, '');
 
 /* ====================== Types ====================== */
 type ApiOpts = RequestInit & {
-  /** Kalau diisi, otomatis method POST (kecuali diset manual) dan body = JSON.stringify(json) */
+  /** Jika diisi, otomatis method POST (kecuali diset manual) dan body = JSON.stringify(json) */
   json?: any;
   /** Kalau false atau server 204, fungsi return null */
   expectJson?: boolean; // default: true
 };
 
 /* ====================== URL helpers ====================== */
-function buildUrl(path: string) {
-  if (!path) return API_BASE;
-  if (/^https?:\/\//i.test(path)) return path; // sudah absolut
-  return `${API_BASE}${path.startsWith('/') ? '' : '/'}${path}`;
+function absolutize(path: string, base: string) {
+  if (!path) return base;
+  if (/^https?:\/\//i.test(path)) return path;
+  return `${base}${path.startsWith('/') ? '' : '/'}${path}`;
 }
 
 /* ====================== Error helpers ====================== */
@@ -30,13 +40,29 @@ async function readErrorMessage(res: Response) {
     const ct = res.headers.get('content-type') || '';
     if (ct.includes('application/json')) {
       const data: any = await res.json().catch(() => ({}));
-      return data?.message || data?.error || `HTTP ${res.status}`;
+      // prefer server message
+      return (
+        data?.message ||
+        data?.error ||
+        (Array.isArray(data?.details) && data.details[0]?.message) ||
+        `HTTP ${res.status}`
+      );
     }
+    // jangan tampilkan HTML mentah
     const text = await res.text();
-    return text || `HTTP ${res.status}`;
+    if (text && !/^\s*</.test(text)) return text;
+    return `HTTP ${res.status}`;
   } catch {
     return `HTTP ${res.status}`;
   }
+}
+
+function buildError(url: string, status: number, message: string) {
+  const err: any = new Error(`[${status}] ${url} ${message}`);
+  err.status = status;
+  err.url = url;
+  err.messageOnly = message;
+  return err;
 }
 
 /* ====================== Main fetch wrapper ====================== */
@@ -55,18 +81,17 @@ export async function api<T = any>(path: string, opts: ApiOpts = {}): Promise<T>
   if (willSendJson) h.set('Content-Type', 'application/json');
 
   const init: RequestInit = {
-    credentials: 'include', // penting agar cookie/token ikut
+    credentials: 'include', // penting agar cookie/token ikut (cross-site)
     headers: h,
     ...(json !== undefined ? { method: rest.method ?? 'POST', body: JSON.stringify(json) } : {}),
     ...rest,
   };
 
-  const url = buildUrl(path);
+  const url = absolutize(path, API_BASE);
   const res = await fetch(url, init);
 
   if (!res.ok) {
-    // lempar error lengkap (status + URL + pesan server)
-    throw new Error(`[${res.status}] ${url} ${await readErrorMessage(res)}`);
+    throw buildError(url, res.status, await readErrorMessage(res));
   }
 
   if (res.status === 204 || !expectJson) {
@@ -83,13 +108,52 @@ export async function api<T = any>(path: string, opts: ApiOpts = {}): Promise<T>
   return (await res.json()) as T;
 }
 
-/* =================== Helper khusus FormData / Upload =================== */
+/* ============== Helper khusus Employer Auth (EMP_API_BASE) ============== */
+export async function empApi<T = any>(
+  path: string,
+  opts: ApiOpts = {}
+): Promise<T> {
+  const { json, headers, expectJson = true, ...rest } = opts;
+
+  const h = new Headers(headers || {});
+  const sendingFormData = rest.body instanceof FormData;
+  const willSendJson = json !== undefined && !sendingFormData;
+
+  if (willSendJson) h.set('Content-Type', 'application/json');
+
+  const init: RequestInit = {
+    credentials: 'include',
+    headers: h,
+    ...(json !== undefined ? { method: rest.method ?? 'POST', body: JSON.stringify(json) } : {}),
+    ...rest,
+  };
+
+  const url = absolutize(path, EMP_API_BASE);
+  const res = await fetch(url, init);
+
+  if (!res.ok) {
+    throw buildError(url, res.status, await readErrorMessage(res));
+  }
+
+  if (res.status === 204 || !expectJson) {
+    // @ts-expect-error
+    return null;
+  }
+
+  const ct = res.headers.get('content-type') || '';
+  if (!ct.includes('application/json')) {
+    return (await res.text()) as unknown as T;
+  }
+  return (await res.json()) as T;
+}
+
+/* =================== Helper FormData / Upload =================== */
 export async function apiForm<T = any>(
   path: string,
   form: FormData,
   opts: RequestInit = {}
 ): Promise<T> {
-  const url = buildUrl(path);
+  const url = absolutize(path, API_BASE);
   const res = await fetch(url, {
     method: 'POST',
     body: form,
@@ -98,7 +162,7 @@ export async function apiForm<T = any>(
   });
 
   if (!res.ok) {
-    throw new Error(`[${res.status}] ${url} ${await readErrorMessage(res)}`);
+    throw buildError(url, res.status, await readErrorMessage(res));
   }
 
   const ct = res.headers.get('content-type') || '';
